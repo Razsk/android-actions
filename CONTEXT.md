@@ -63,3 +63,11 @@ _Avoid_: Activity map, streak grid
 **Kinetic Bottom Navigation**:
 A 3-destination bottom navigation bar (`Mission Control ⚡`, `Challenges 🏆`, `Stats 📊`) that automatically hides during active Focus HUD mode.
 _Avoid_: Tab bar, bottom menu
+
+**Challenge Summary Screen**:
+The completion screen displayed after finishing the final objective in Focus HUD, presenting total elapsed duration, Ghost Pace delta vs PB, and a zero-friction 'Share to Buddy' action.
+_Avoid_: Results screen, game over view
+
+**Room Repository Persistence**:
+Binding Room `AppDatabase` DAOs directly to ViewModel state flows so user tasks, routines, logs, and split times persist across app restarts.
+_Avoid_: Local cache, offline store
