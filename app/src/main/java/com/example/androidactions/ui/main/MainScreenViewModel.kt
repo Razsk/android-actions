@@ -80,6 +80,23 @@ class MainScreenViewModel(
                     timestamp = System.currentTimeMillis()
                 )
                 _postponedLogs.value = _postponedLogs.value + log
+
+                // Automatic Rescheduling: If task is a routine (frequencyDays > 0), reschedule next dueTimestamp
+                val task = _createdTasks.value.find { it.id == taskId }
+                if (task != null && task.defaultPeriodDays > 0) {
+                    val nextDueTime = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(task.defaultPeriodDays.toLong())
+                    val updatedRoutines = _createdRoutines.value.map { routine ->
+                        if (routine.taskId == taskId) {
+                            routine.copy(
+                                dueTimestamp = nextDueTime,
+                                isPostponed = false
+                            )
+                        } else {
+                            routine
+                        }
+                    }
+                    _createdRoutines.value = updatedRoutines
+                }
             } else {
                 _completedTaskIds.value = _completedTaskIds.value - taskId
             }

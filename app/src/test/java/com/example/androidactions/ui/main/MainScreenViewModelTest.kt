@@ -55,6 +55,29 @@ class MainScreenViewModelTest {
     }
 
     @Test
+    fun completeTask_routineReschedulesNextDueTimestamp() = runTest {
+        val viewModel = MainScreenViewModel(FakeMyModelRepository())
+        viewModel.createNewTask("Descaling Coffee Machine", listOf("Home"), "Default", 90)
+
+        val createdState = viewModel.uiState.filter {
+            it is MainScreenUiState.Success && it.createdTasks.isNotEmpty()
+        }.first() as MainScreenUiState.Success
+
+        val taskId = createdState.createdTasks.first().id
+        viewModel.completeTask(taskId, isChecked = true)
+
+        val updatedState = viewModel.uiState.filter {
+            it is MainScreenUiState.Success && it.completedTaskIds.contains(taskId)
+        }.first() as MainScreenUiState.Success
+
+        assertEquals(1, updatedState.completedTaskIds.size)
+        val routine = updatedState.createdRoutines.find { it.taskId == taskId }
+        assertTrue(routine != null)
+        assertTrue(routine!!.dueTimestamp > System.currentTimeMillis())
+        assertEquals(false, routine.isPostponed)
+    }
+
+    @Test
     fun postponeRoutine_recordsExecutionLogWithPostponedAction() = runTest {
         val viewModel = MainScreenViewModel(FakeMyModelRepository())
         val initialState = viewModel.uiState.filter { it is MainScreenUiState.Success }.first() as MainScreenUiState.Success
