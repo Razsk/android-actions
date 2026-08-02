@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import com.example.androidactions.FocusHud
@@ -82,10 +81,12 @@ fun MainScreen(
                 MissionControlScreen(
                     activeChallenge = successData.activeChallenge,
                     dueTasks = successData.createdTasks,
+                    completedTaskIds = successData.completedTaskIds,
                     cards = successData.suggestionCards,
                     onLaunchChallenge = { challengeId -> onItemClick(FocusHud(challengeId)) },
                     onAcceptCard = { taskId -> viewModel.acceptSuggestionCard(taskId) },
                     onOpenTaskCreation = { showTaskCreationModal = true },
+                    onTaskToggle = { taskId, isChecked -> viewModel.completeTask(taskId, isChecked) },
                     onPostponeClick = { task ->
                         if (task.defaultPeriodDays > 0) {
                             viewModel.postponeRoutine(task.id, task.defaultPeriodDays)
@@ -127,10 +128,12 @@ fun MainScreen(
 internal fun MissionControlScreen(
     activeChallenge: ActiveChallengeSummary?,
     dueTasks: List<TaskEntity>,
+    completedTaskIds: Set<Long>,
     cards: List<SuggestionCard>,
     onLaunchChallenge: (Long) -> Unit,
     onAcceptCard: (Long) -> Unit,
     onOpenTaskCreation: () -> Unit,
+    onTaskToggle: (Long, Boolean) -> Unit,
     onPostponeClick: (TaskEntity) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -141,7 +144,7 @@ internal fun MissionControlScreen(
             .verticalScroll(rememberScrollState())
             .padding(20.dp)
     ) {
-        // Mission Control Header Block with Inviting Action Blue Button
+        // Mission Control Header Block with Kinetic Action Blue Outlined Pill
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -161,14 +164,15 @@ internal fun MissionControlScreen(
             }
             Box(
                 modifier = Modifier
-                    .background(ActionBlue, RoundedCornerShape(4.dp))
+                    .background(ActionBlue.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
+                    .border(1.dp, ActionBlue, RoundedCornerShape(4.dp))
                     .clickable { onOpenTaskCreation() }
-                    .padding(horizontal = 14.dp, vertical = 10.dp)
+                    .padding(horizontal = 14.dp, vertical = 8.dp)
             ) {
                 Text(
                     text = "+ CREATE TASK",
                     style = MaterialTheme.typography.labelSmall,
-                    color = SurfaceDark
+                    color = ActionBlue
                 )
             }
         }
@@ -177,54 +181,66 @@ internal fun MissionControlScreen(
 
         // Prominent Due Objectives Section (Immediate Focus)
         HudCard(title = "DUE OBJECTIVES PROTOCOLS") {
-            val sampleDueTasks = if (dueTasks.isNotEmpty()) dueTasks else listOf(
+            val defaultSampleTasks = listOf(
                 TaskEntity(id = 101L, title = "Morning Meditation & Breathing", defaultPeriodDays = 1, listName = "Health", tagsCsv = "Health,Routine"),
                 TaskEntity(id = 102L, title = "Review Daily Code Commit Logs", defaultPeriodDays = 0, listName = "Work", tagsCsv = "Work")
             )
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                sampleDueTasks.forEach { task ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(SurfaceContainer, RoundedCornerShape(4.dp))
-                            .padding(12.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
-                            Checkbox(
-                                checked = false,
-                                onCheckedChange = { },
-                                colors = CheckboxDefaults.colors(
-                                    uncheckedColor = CyberCyan,
-                                    checkedColor = ActionBlue
+            val displayTasks = (dueTasks + defaultSampleTasks.filterNot { sample -> dueTasks.any { it.id == sample.id } })
+                .filterNot { completedTaskIds.contains(it.id) }
+
+            if (displayTasks.isEmpty()) {
+                Text(
+                    text = "All due objectives completed for today.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    displayTasks.forEach { task ->
+                        val isChecked = completedTaskIds.contains(task.id)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(SurfaceContainer, RoundedCornerShape(4.dp))
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                                Checkbox(
+                                    checked = isChecked,
+                                    onCheckedChange = { checked -> onTaskToggle(task.id, checked) },
+                                    colors = CheckboxDefaults.colors(
+                                        uncheckedColor = CyberCyan,
+                                        checkedColor = ActionBlue
+                                    )
                                 )
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Column {
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Column {
+                                    Text(
+                                        text = task.title,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                    Text(
+                                        text = "${task.listName.uppercase()} // TAGS: ${task.tagsCsv}",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .border(1.dp, Color(0x338D90A0), RoundedCornerShape(4.dp))
+                                    .clickable { onPostponeClick(task) }
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                            ) {
                                 Text(
-                                    text = task.title,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "${task.listName.uppercase()} // TAGS: ${task.tagsCsv}",
+                                    text = "POSTPONE",
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = ActionBlue
                                 )
                             }
-                        }
-                        Box(
-                            modifier = Modifier
-                                .border(1.dp, Color(0x338D90A0), RoundedCornerShape(4.dp))
-                                .clickable { onPostponeClick(task) }
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
-                        ) {
-                            Text(
-                                text = "POSTPONE",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = ActionBlue
-                            )
                         }
                     }
                 }

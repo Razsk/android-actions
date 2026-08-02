@@ -32,11 +32,12 @@ class MainScreenViewModel(
 
     private val _acceptedCards = MutableStateFlow<Set<Long>>(emptySet())
     private val _createdTasks = MutableStateFlow<List<TaskEntity>>(emptyList())
+    private val _completedTaskIds = MutableStateFlow<Set<Long>>(emptySet())
     private val _createdRoutines = MutableStateFlow<List<RoutineEntity>>(emptyList())
     private val _postponedLogs = MutableStateFlow<List<TaskExecutionLog>>(emptyList())
 
     val uiState: StateFlow<MainScreenUiState> =
-        combine(_acceptedCards, _createdTasks, _createdRoutines, _postponedLogs) { accepted, createdTasks, createdRoutines, postponed ->
+        combine(_acceptedCards, _createdTasks, _completedTaskIds, _createdRoutines, _postponedLogs) { accepted, createdTasks, completedIds, createdRoutines, postponed ->
             val allLogs = listOf(
                 TaskExecutionLog(id = 1L, taskId = 10L, actionType = ActionType.POSTPONED, timestamp = 100L),
                 TaskExecutionLog(id = 2L, taskId = 10L, actionType = ActionType.POSTPONED, timestamp = 200L),
@@ -46,6 +47,8 @@ class MainScreenViewModel(
             val detectedCard = cardAnalyzer.analyzeLogs(taskId = 10L, logs = allLogs)
             val activeCards = detectedCard?.let { listOf(it) } ?: emptyList()
 
+            val activeDueTasks = createdTasks.filterNot { completedIds.contains(it.id) }
+
             MainScreenUiState.Success(
                 activeChallenge = ActiveChallengeSummary(
                     id = 1L,
@@ -53,7 +56,8 @@ class MainScreenViewModel(
                     progressFraction = 0.4f
                 ),
                 suggestionCards = activeCards.filterNot { accepted.contains(it.targetTaskId) },
-                createdTasks = createdTasks,
+                createdTasks = activeDueTasks,
+                completedTaskIds = completedIds,
                 createdRoutines = createdRoutines,
                 postponedLogs = postponed
             ) as MainScreenUiState
@@ -63,6 +67,23 @@ class MainScreenViewModel(
 
     fun acceptSuggestionCard(taskId: Long) {
         _acceptedCards.value = _acceptedCards.value + taskId
+    }
+
+    fun completeTask(taskId: Long, isChecked: Boolean) {
+        viewModelScope.launch {
+            if (isChecked) {
+                _completedTaskIds.value = _completedTaskIds.value + taskId
+                val log = TaskExecutionLog(
+                    id = System.currentTimeMillis(),
+                    taskId = taskId,
+                    actionType = ActionType.COMPLETED,
+                    timestamp = System.currentTimeMillis()
+                )
+                _postponedLogs.value = _postponedLogs.value + log
+            } else {
+                _completedTaskIds.value = _completedTaskIds.value - taskId
+            }
+        }
     }
 
     fun postponeRoutine(taskId: Long, deferDays: Int) {
@@ -124,6 +145,7 @@ sealed interface MainScreenUiState {
         val activeChallenge: ActiveChallengeSummary?,
         val suggestionCards: List<SuggestionCard>,
         val createdTasks: List<TaskEntity> = emptyList(),
+        val completedTaskIds: Set<Long> = emptySet(),
         val createdRoutines: List<RoutineEntity> = emptyList(),
         val postponedLogs: List<TaskExecutionLog> = emptyList()
     ) : MainScreenUiState
