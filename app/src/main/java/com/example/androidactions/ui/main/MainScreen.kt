@@ -16,8 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,9 +36,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import com.example.androidactions.FocusHud
+import com.example.androidactions.data.TaskEntity
 import com.example.androidactions.domain.SuggestionCard
 import com.example.androidactions.theme.ActionBlue
 import com.example.androidactions.theme.CyberCyan
+import com.example.androidactions.theme.SurfaceContainer
 import com.example.androidactions.theme.SurfaceDark
 import com.example.androidactions.ui.hud.GhostProgressBar
 import com.example.androidactions.ui.hud.HudButton
@@ -55,22 +61,40 @@ fun MainScreen(
         MainScreenUiState.Loading -> {}
         is MainScreenUiState.Success -> {
             val successData = state as MainScreenUiState.Success
-            MissionControlScreen(
-                activeChallenge = successData.activeChallenge,
-                cards = successData.suggestionCards,
-                onLaunchChallenge = { challengeId -> onItemClick(FocusHud(challengeId)) },
-                onAcceptCard = { taskId -> viewModel.acceptSuggestionCard(taskId) },
-                onOpenTaskCreation = { showTaskCreationModal = true },
-                modifier = modifier
-            )
-
-            if (showTaskCreationModal) {
-                TaskCreationBottomSheet(
-                    onDismiss = { showTaskCreationModal = false },
-                    onSaveTask = { title, tags, listName, frequencyDays ->
-                        viewModel.createNewTask(title, tags, listName, frequencyDays)
+            Scaffold(
+                modifier = modifier,
+                containerColor = SurfaceDark,
+                floatingActionButton = {
+                    FloatingActionButton(
+                        onClick = { showTaskCreationModal = true },
+                        containerColor = ActionBlue,
+                        contentColor = SurfaceDark
+                    ) {
+                        Text(
+                            text = "+",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
                     }
+                }
+            ) { padding ->
+                MissionControlScreen(
+                    activeChallenge = successData.activeChallenge,
+                    dueTasks = successData.createdTasks,
+                    cards = successData.suggestionCards,
+                    onLaunchChallenge = { challengeId -> onItemClick(FocusHud(challengeId)) },
+                    onAcceptCard = { taskId -> viewModel.acceptSuggestionCard(taskId) },
+                    onOpenTaskCreation = { showTaskCreationModal = true },
+                    modifier = Modifier.padding(padding)
                 )
+
+                if (showTaskCreationModal) {
+                    TaskCreationBottomSheet(
+                        onDismiss = { showTaskCreationModal = false },
+                        onSaveTask = { title, tags, listName, frequencyDays, isReusable ->
+                            viewModel.createNewTask(title, tags, listName, frequencyDays, isReusable)
+                        }
+                    )
+                }
             }
         }
         is MainScreenUiState.Error -> {
@@ -82,6 +106,7 @@ fun MainScreen(
 @Composable
 internal fun MissionControlScreen(
     activeChallenge: ActiveChallengeSummary?,
+    dueTasks: List<TaskEntity>,
     cards: List<SuggestionCard>,
     onLaunchChallenge: (Long) -> Unit,
     onAcceptCard: (Long) -> Unit,
@@ -95,7 +120,7 @@ internal fun MissionControlScreen(
             .verticalScroll(rememberScrollState())
             .padding(20.dp)
     ) {
-        // Mission Control Header Block with + Action
+        // Mission Control Header Block with Inviting Action Blue Button
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -115,20 +140,76 @@ internal fun MissionControlScreen(
             }
             Box(
                 modifier = Modifier
-                    .background(ActionBlue.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
-                    .border(1.dp, ActionBlue, RoundedCornerShape(4.dp))
+                    .background(ActionBlue, RoundedCornerShape(4.dp))
                     .clickable { onOpenTaskCreation() }
-                    .padding(horizontal = 14.dp, vertical = 8.dp)
+                    .padding(horizontal = 14.dp, vertical = 10.dp)
             ) {
                 Text(
                     text = "+ CREATE TASK",
                     style = MaterialTheme.typography.labelSmall,
-                    color = ActionBlue
+                    color = SurfaceDark
                 )
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+
+        // Prominent Due Objectives Section (Immediate Focus)
+        HudCard(title = "DUE OBJECTIVES PROTOCOLS") {
+            val sampleDueTasks = if (dueTasks.isNotEmpty()) dueTasks else listOf(
+                TaskEntity(id = 101L, title = "Morning Meditation & Breathing", defaultPeriodDays = 1, listName = "Health", tagsCsv = "Health,Routine"),
+                TaskEntity(id = 102L, title = "Review Daily Code Commit Logs", defaultPeriodDays = 1, listName = "Work", tagsCsv = "Work")
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                sampleDueTasks.forEach { task ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(SurfaceContainer, RoundedCornerShape(4.dp))
+                            .padding(12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
+                            Checkbox(
+                                checked = false,
+                                onCheckedChange = { },
+                                colors = CheckboxDefaults.colors(
+                                    uncheckedColor = CyberCyan,
+                                    checkedColor = ActionBlue
+                                )
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = task.title,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Text(
+                                    text = "${task.listName.uppercase()} // TAGS: ${task.tagsCsv}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .border(1.dp, Color(0x338D90A0), RoundedCornerShape(4.dp))
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "POSTPONE",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = ActionBlue
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Active Challenges HUD Section
         HudCard(title = "ACTIVE CHALLENGE PROTOCOLS") {

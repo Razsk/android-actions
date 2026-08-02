@@ -62,13 +62,13 @@ class MainScreenViewModel(
         _acceptedCards.value = _acceptedCards.value + taskId
     }
 
-    fun createNewTask(title: String, tags: List<String>, listName: String, frequencyDays: Int) {
+    fun createNewTask(title: String, tags: List<String>, listName: String, frequencyDays: Int, isReusable: Boolean = true) {
         viewModelScope.launch {
             val taskId = System.currentTimeMillis()
             val newTask = TaskEntity(
                 id = taskId,
                 title = title,
-                isReusable = true,
+                isReusable = isReusable,
                 defaultPeriodDays = frequencyDays,
                 listName = listName,
                 tagsCsv = tags.joinToString(",")
