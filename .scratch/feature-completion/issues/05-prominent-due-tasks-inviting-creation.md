@@ -8,9 +8,9 @@
 
 **Blocked by:** 01 — Task Creation Bottom Sheet Modal & Persistence
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Prominent 'DUE OBJECTIVES PROTOCOLS' HUD card rendered below header on Mission Control.
-- [ ] Solid Action Blue header button and Floating Action Button (FAB) launch task creation modal.
-- [ ] Inline '+ NEW TAG' and '+ NEW LIST' chip buttons with text inputs inside creation modal.
-- [ ] Material 3 Switch toggle for 'REUSABLE TASK' persisting `isReusable` on `TaskEntity`.
+- [x] Prominent 'DUE OBJECTIVES PROTOCOLS' HUD card rendered below header on Mission Control.
+- [x] Solid Action Blue header button and Floating Action Button (FAB) launch task creation modal.
+- [x] Inline '+ NEW TAG' and '+ NEW LIST' chip buttons with text inputs inside creation modal.
+- [x] Material 3 Switch toggle for 'REUSABLE TASK' persisting `isReusable` on `TaskEntity`.
