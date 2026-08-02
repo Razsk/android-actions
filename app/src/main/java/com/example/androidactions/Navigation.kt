@@ -25,13 +25,14 @@ import com.example.androidactions.ui.challenges.ChallengesScreen
 import com.example.androidactions.ui.challengesummary.ChallengeSummaryScreen
 import com.example.androidactions.ui.focushud.FocusHudScreen
 import com.example.androidactions.ui.main.MainScreen
+import com.example.androidactions.ui.search.SearchScreen
 import com.example.androidactions.ui.stats.StatsScreen
 
 @Composable
 fun MainNavigation() {
   val backStack = rememberNavBackStack(Main)
   val currentKey = backStack.lastOrNull() ?: Main
-  val isBottomBarVisible = currentKey is Main || currentKey is Challenges || currentKey is Stats
+  val isBottomBarVisible = currentKey is Main || currentKey is Search || currentKey is Challenges || currentKey is Stats
   val context = LocalContext.current
   val formatter = BuddyAccountabilityFormatter()
 
@@ -54,6 +55,23 @@ fun MainNavigation() {
             },
             label = { Text("Mission Control", style = MaterialTheme.typography.labelSmall) },
             icon = { Text("⚡", color = if (currentKey is Main) CyberCyan else ActionBlue) },
+            colors = NavigationBarItemDefaults.colors(
+              selectedIconColor = CyberCyan,
+              selectedTextColor = CyberCyan,
+              indicatorColor = SurfaceContainer,
+              unselectedIconColor = ActionBlue,
+              unselectedTextColor = ActionBlue
+            )
+          )
+          NavigationBarItem(
+            selected = currentKey is Search,
+            onClick = {
+              if (currentKey !is Search) {
+                backStack.add(Search)
+              }
+            },
+            label = { Text("Search", style = MaterialTheme.typography.labelSmall) },
+            icon = { Text("🔍", color = if (currentKey is Search) CyberCyan else ActionBlue) },
             colors = NavigationBarItemDefaults.colors(
               selectedIconColor = CyberCyan,
               selectedTextColor = CyberCyan,
@@ -109,6 +127,11 @@ fun MainNavigation() {
           entry<Main> {
             MainScreen(
               onItemClick = { navKey -> backStack.add(navKey) },
+              modifier = Modifier.safeDrawingPadding()
+            )
+          }
+          entry<Search> {
+            SearchScreen(
               modifier = Modifier.safeDrawingPadding()
             )
           }
