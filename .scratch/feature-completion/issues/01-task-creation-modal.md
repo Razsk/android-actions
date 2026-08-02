@@ -5,9 +5,9 @@ A Kinetic HUD dark bottom sheet modal launched from a top-bar `+` header action 
 
 **Blocked by:** None — can start immediately.
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Top-bar `+` icon on Mission Control opens Task Creation bottom sheet modal.
-- [ ] Form includes title, tag chips (`Work`, `Health`, `Home`), list dropdown, and frequency period.
-- [ ] Saving writes `TaskEntity` to Room DB and creates `RoutineEntity` if frequency > 0.
-- [ ] ViewModel state flow reactively updates Mission Control upon saving.
+- [x] Top-bar `+` icon on Mission Control opens Task Creation bottom sheet modal.
+- [x] Form includes title, tag chips (`Work`, `Health`, `Home`), list dropdown, and frequency period.
+- [x] Saving writes `TaskEntity` to Room DB and creates `RoutineEntity` if frequency > 0.
+- [x] ViewModel state flow reactively updates Mission Control upon saving.
