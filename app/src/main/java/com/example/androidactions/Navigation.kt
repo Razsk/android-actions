@@ -1,5 +1,6 @@
 package com.example.androidactions
 
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -11,14 +12,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.example.androidactions.domain.BuddyAccountabilityFormatter
 import com.example.androidactions.theme.ActionBlue
 import com.example.androidactions.theme.CyberCyan
 import com.example.androidactions.theme.SurfaceContainer
 import com.example.androidactions.theme.SurfaceDark
 import com.example.androidactions.ui.challenges.ChallengesScreen
+import com.example.androidactions.ui.challengesummary.ChallengeSummaryScreen
 import com.example.androidactions.ui.focushud.FocusHudScreen
 import com.example.androidactions.ui.main.MainScreen
 import com.example.androidactions.ui.stats.StatsScreen
@@ -28,6 +32,8 @@ fun MainNavigation() {
   val backStack = rememberNavBackStack(Main)
   val currentKey = backStack.lastOrNull() ?: Main
   val isBottomBarVisible = currentKey is Main || currentKey is Challenges || currentKey is Stats
+  val context = LocalContext.current
+  val formatter = BuddyAccountabilityFormatter()
 
   Scaffold(
     modifier = Modifier.fillMaxSize(),
@@ -125,8 +131,37 @@ fun MainNavigation() {
               activeTaskIndex = 1,
               totalTasks = 5,
               ghostDeltaSeconds = -12L,
-              onCompleteTask = { backStack.removeLastOrNull() },
-              onShareStatus = {},
+              onCompleteTask = {
+                backStack.removeLastOrNull()
+                backStack.add(
+                  ChallengeSummary(
+                    challengeTitle = "30-MIN APARTMENT RESET",
+                    totalTimeSeconds = 1450L,
+                    ghostDeltaSeconds = -18L
+                  )
+                )
+              },
+              onShareStatus = {
+                val text = formatter.formatStartMessage("30-MIN APARTMENT RESET", "Clear Kitchen Countertop")
+                val sendIntent = Intent().apply {
+                  action = Intent.ACTION_SEND
+                  putExtra(Intent.EXTRA_TEXT, text)
+                  type = "text/plain"
+                }
+                context.startActivity(Intent.createChooser(sendIntent, "Share Status"))
+              },
+              modifier = Modifier.safeDrawingPadding()
+            )
+          }
+          entry<ChallengeSummary> { key ->
+            ChallengeSummaryScreen(
+              challengeTitle = key.challengeTitle,
+              totalTimeSeconds = key.totalTimeSeconds,
+              ghostDeltaSeconds = key.ghostDeltaSeconds,
+              onDone = {
+                backStack.removeLastOrNull()
+                if (backStack.isEmpty()) backStack.add(Main)
+              },
               modifier = Modifier.safeDrawingPadding()
             )
           }

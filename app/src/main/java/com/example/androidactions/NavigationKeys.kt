@@ -7,3 +7,8 @@ import kotlinx.serialization.Serializable
 @Serializable data object Challenges : NavKey
 @Serializable data object Stats : NavKey
 @Serializable data class FocusHud(val challengeId: Long) : NavKey
+@Serializable data class ChallengeSummary(
+    val challengeTitle: String,
+    val totalTimeSeconds: Long,
+    val ghostDeltaSeconds: Long
+) : NavKey
