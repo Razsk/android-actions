@@ -63,40 +63,40 @@ fun ChallengesScreen(
             .verticalScroll(rememberScrollState())
             .padding(20.dp)
     ) {
-        // Header
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(
-                    text = "CHALLENGES LIBRARY",
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "TIMED SPEEDRUN PROTOCOLS // ACTIVE",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = ActionBlue
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .background(ActionBlue.copy(alpha = 0.15f), RoundedCornerShape(4.dp))
-                    .border(1.dp, ActionBlue, RoundedCornerShape(4.dp))
-                    .clickable { showCreateModal = true }
-                    .padding(horizontal = 14.dp, vertical = 8.dp)
-            ) {
-                Text(
-                    text = "+ NEW CHALLENGE",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = ActionBlue
-                )
-            }
+        // Header Title
+        Column {
+            Text(
+                text = "CHALLENGES LIBRARY",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "TIMED SPEEDRUN PROTOCOLS // ACTIVE",
+                style = MaterialTheme.typography.labelSmall,
+                color = ActionBlue
+            )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Prominent Full-Width + NEW CHALLENGE Action Card/Button
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(ActionBlue.copy(alpha = 0.15f), RoundedCornerShape(8.dp))
+                .border(1.dp, ActionBlue, RoundedCornerShape(8.dp))
+                .clickable { showCreateModal = true }
+                .padding(vertical = 14.dp, horizontal = 16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "+ CREATE NEW CHALLENGE PROTOCOL",
+                style = MaterialTheme.typography.labelMedium,
+                color = ActionBlue
+            )
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         // Grid of Challenge Cards
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
