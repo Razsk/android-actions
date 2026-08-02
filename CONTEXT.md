@@ -51,3 +51,11 @@ _Avoid_: Task duration, lap time
 **Ghost Pace**:
 A live visual comparison showing time delta (+/- seconds) against the personal best split for the active task.
 _Avoid_: Delta, time diff
+
+**Reliability Score**:
+The calculated percentage ratio of on-time routine completions vs total due routines over a 30-day window.
+_Avoid_: Score, grade, completion rate
+
+**Consistency Heatmap**:
+A Cyber Cyan intensity grid mapping task completion volume across days of the week.
+_Avoid_: Activity map, streak grid
