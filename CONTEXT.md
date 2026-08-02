@@ -61,7 +61,7 @@ A Cyber Cyan intensity grid mapping task completion volume across days of the we
 _Avoid_: Activity map, streak grid
 
 **Kinetic Bottom Navigation**:
-A 3-destination bottom navigation bar (`Mission Control ⚡`, `Challenges 🏆`, `Stats 📊`) that automatically hides during active Focus HUD mode.
+A 4-destination bottom navigation bar (`Mission Control ⚡`, `Search & Directory 🔍`, `Challenges 🏆`, `Stats 📊`) that automatically hides during active Focus HUD mode.
 _Avoid_: Tab bar, bottom menu
 
 **Challenge Summary Screen**:
@@ -75,3 +75,7 @@ _Avoid_: Local cache, offline store
 **Local Buddy Directory**:
 A lightweight Room entity (`BuddyEntity`) storing contact names and phone numbers/handles for quick 1-tap SMS intent selection during challenge updates.
 _Avoid_: Contact sync, social list
+
+**Exact Alarm Manager Scheduler**:
+High-priority exact system alarms scheduled via `AlarmManager` to fire background notifications when 3-month routines (e.g. Descaling Coffee Machine) become due.
+_Avoid_: Poll timer, local notification
