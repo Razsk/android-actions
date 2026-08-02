@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MISSION CONTROL - Quick Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800&amp;family=Inter:wght@400&amp;family=JetBrains+Mono:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#0b1326",
+                    "on-tertiary-container": "#33e6ff",
+                    "on-secondary-fixed": "#00105c",
+                    "on-primary-fixed": "#001848",
+                    "on-tertiary": "#00363d",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#131b2e",
+                    "outline": "#8d90a0",
+                    "inverse-surface": "#dae2fd",
+                    "on-surface": "#dae2fd",
+                    "surface-bright": "#31394d",
+                    "inverse-on-surface": "#283044",
+                    "on-secondary": "#08218a",
+                    "tertiary-fixed-dim": "#00daf3",
+                    "tertiary-fixed": "#9cf0ff",
+                    "surface-container-high": "#222a3d",
+                    "background": "#0b1326",
+                    "primary-fixed-dim": "#b2c5ff",
+                    "on-surface-variant": "#c3c6d6",
+                    "on-primary": "#002b73",
+                    "surface-variant": "#2d3449",
+                    "tertiary-container": "#006470",
+                    "on-tertiary-fixed": "#001f24",
+                    "surface": "#0b1326",
+                    "tertiary": "#00daf3",
+                    "on-primary-fixed-variant": "#0040a2",
+                    "surface-tint": "#b2c5ff",
+                    "on-tertiary-fixed-variant": "#004f58",
+                    "inverse-primary": "#0c56d0",
+                    "surface-container-highest": "#2d3449",
+                    "primary-container": "#0052cc",
+                    "on-error-container": "#ffdad6",
+                    "surface-container": "#171f33",
+                    "on-secondary-container": "#a8b4ff",
+                    "on-primary-container": "#c4d2ff",
+                    "secondary-fixed": "#dee0ff",
+                    "on-secondary-fixed-variant": "#293ca0",
+                    "secondary-container": "#2c3ea3",
+                    "primary": "#b2c5ff",
+                    "on-background": "#dae2fd",
+                    "secondary": "#bac3ff",
+                    "surface-container-lowest": "#060e20",
+                    "secondary-fixed-dim": "#bac3ff",
+                    "on-error": "#690005",
+                    "primary-fixed": "#dae2ff",
+                    "outline-variant": "#434654",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1200px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "32px",
+                    "gutter": "16px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "timer-xl": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "timer-xl": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.05em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .hud-border {
+            border: 1px solid rgba(141, 144, 160, 0.2);
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            background: rgba(11, 19, 38, 0.7);
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #00daf3;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md antialiased overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-background text-primary dark:text-primary w-full top-0 border-b border-outline-variant flex justify-between items-center px-margin-mobile py-4 w-full z-40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic HUD profile avatar featuring a high-tech robotic interface overlay with glowing cyan data points and circuit patterns. The background is a dark deep navy with subtle geometric grids, following the Modern Corporate HUD aesthetic. Precise lighting emphasizes the metallic textures and digital sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfdDxKRt8UeiVXJhYhUrkrd2Vo2FGzOF3QskXPwSvispZ52jDsEA7GuCWdALxtmF8uQPy7UXAXRjQAFb6eDfnMOSmRsTSoOFClmDH85LJ1seueNn5EA6dOFevRZgMw0SDVlEjEUnXPs20vddiu6i9yo4xc8Q_iiCjaV2fRalBkDG1SF7UVImQtbu4iKDWKgfi539ucosB8MUKwfFZ6M4vyw-3HA4Qc35OYUEr-yIr6pdMbaBCYlM9cWw"/>
+</div>
+<h1 class="font-label-caps text-label-caps tracking-widest text-primary uppercase">MISSION CONTROL</h1>
+</div>
+<button class="material-symbols-outlined hover:bg-surface-container-high transition-colors p-2 rounded-full active:scale-95 duration-100">
+            notifications
+        </button>
+</header>
+<main class="relative h-[calc(100vh-64px-64px)] w-full max-w-container-max mx-auto px-margin-mobile pt-8 flex flex-col gap-6">
+<!-- Search Input Section -->
+<section class="w-full">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-tertiary">
+<span class="material-symbols-outlined">search</span>
+</div>
+<div class="w-full bg-surface-container-low border-b-2 border-primary pt-4 pb-2 px-12 rounded-t-lg transition-all duration-300">
+<div class="flex items-center">
+<span class="font-timer-xl text-timer-xl text-on-surface uppercase tracking-tight">EXER</span>
+<span class="cursor-blink"></span>
+</div>
+<div class="mt-1 font-label-caps text-label-caps text-outline uppercase tracking-widest">Type objective identifier...</div>
+</div>
+</div>
+</section>
+<!-- Suggested Objectives List -->
+<section class="flex-1 overflow-y-auto pb-20">
+<h2 class="font-label-caps text-label-caps text-primary mb-4 tracking-widest border-l-2 border-primary pl-3">SUGGESTED OBJECTIVES</h2>
+<div class="flex flex-col gap-3">
+<!-- Suggestion 1 -->
+<div class="hud-border bg-surface-container-highest p-4 rounded-lg flex items-center justify-between hover:bg-surface-container-high transition-all cursor-pointer group active:scale-[0.99]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Exercise: Cardio</span>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-[10px] px-2 py-0.5 rounded uppercase">Reusable</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-caps text-[10px] px-2 py-0.5 rounded uppercase">HEALTH</span>
+<span class="text-on-surface-variant font-label-caps text-[10px] uppercase">Est. 45 min</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+<!-- Suggestion 2 -->
+<div class="hud-border bg-surface-container-highest p-4 rounded-lg flex items-center justify-between hover:bg-surface-container-high transition-all cursor-pointer group active:scale-[0.99]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Exercise: Strength</span>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-[10px] px-2 py-0.5 rounded uppercase">Reusable</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-caps text-[10px] px-2 py-0.5 rounded uppercase">HEALTH</span>
+<span class="text-on-surface-variant font-label-caps text-[10px] uppercase">Est. 60 min</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+<!-- Suggestion 3 -->
+<div class="hud-border bg-surface-container-highest p-4 rounded-lg flex items-center justify-between hover:bg-surface-container-high transition-all cursor-pointer group active:scale-[0.99]">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Morning Workout</span>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-[10px] px-2 py-0.5 rounded uppercase">Reusable</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container font-label-caps text-[10px] px-2 py-0.5 rounded uppercase">HEALTH</span>
+<span class="text-on-surface-variant font-label-caps text-[10px] uppercase">Est. 30 min</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">arrow_forward_ios</span>
+</div>
+<!-- Ghost Mode Data Block -->
+<div class="mt-6 glass-effect hud-border p-4 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
+<div class="flex justify-between items-center mb-3">
+<span class="font-label-caps text-label-caps text-tertiary tracking-widest uppercase">System Analytics</span>
+<span class="material-symbols-outlined text-tertiary text-sm">query_stats</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-2 rounded">
+<div class="text-[10px] font-label-caps text-outline uppercase">Match Accuracy</div>
+<div class="font-timer-xl text-[24px] text-on-surface">94.2%</div>
+</div>
+<div class="bg-surface-container-low p-2 rounded">
+<div class="text-[10px] font-label-caps text-outline uppercase">Latency</div>
+<div class="font-timer-xl text-[24px] text-on-surface">12ms</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-16 flex justify-around items-center px-margin-mobile border-t border-outline-variant bg-surface-container-lowest z-50">
+<button class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary active:translate-y-0.5 transition-all">
+<span class="material-symbols-outlined">home</span>
+</button>
+<!-- Active Search Tab -->
+<button class="flex items-center justify-center bg-primary-container text-on-primary-container rounded-full p-3 active:translate-y-0.5 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary active:translate-y-0.5 transition-all">
+<span class="material-symbols-outlined">leaderboard</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary active:translate-y-0.5 transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</nav>
+<!-- Visual HUD Elements -->
+<div class="fixed top-20 right-4 pointer-events-none opacity-20 hidden md:block">
+<div class="hud-border p-4 rounded bg-surface-dim">
+<div class="font-label-caps text-[8px] text-primary mb-2">COORD_X: 104.2</div>
+<div class="font-label-caps text-[8px] text-primary">COORD_Y: 882.1</div>
+</div>
+</div>
+<script>
+        // Micro-interaction for suggestions
+        const suggestions = document.querySelectorAll('.hud-border.group');
+        suggestions.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                // Subtle audio cue simulated via hover effect
+            });
+        });
+    </script>
+</body></html>

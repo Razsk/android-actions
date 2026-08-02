@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mission Control - Morning Power Hour</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .ghost-blur {
+            backdrop-filter: blur(12px);
+            background-color: rgba(11, 19, 38, 0.1);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(178, 197, 255, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            pointer-events: none;
+            animation: moveScanline 8s linear infinite;
+        }
+        @keyframes moveScanline {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+        .timer-glow {
+            text-shadow: 0 0 20px rgba(178, 197, 255, 0.3);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#2d3449",
+                      "surface-tint": "#b2c5ff",
+                      "inverse-surface": "#dae2fd",
+                      "surface-bright": "#31394d",
+                      "error-container": "#93000a",
+                      "primary": "#b2c5ff",
+                      "on-surface-variant": "#c3c6d6",
+                      "secondary": "#bac3ff",
+                      "on-surface": "#dae2fd",
+                      "primary-container": "#0052cc",
+                      "secondary-fixed-dim": "#bac3ff",
+                      "on-tertiary-fixed-variant": "#004f58",
+                      "secondary-fixed": "#dee0ff",
+                      "on-tertiary-fixed": "#001f24",
+                      "primary-fixed": "#dae2ff",
+                      "surface-container-low": "#131b2e",
+                      "tertiary-fixed": "#9cf0ff",
+                      "background": "#0b1326",
+                      "tertiary-fixed-dim": "#00daf3",
+                      "tertiary": "#00daf3",
+                      "surface-container": "#171f33",
+                      "secondary-container": "#2c3ea3",
+                      "inverse-primary": "#0c56d0",
+                      "on-secondary-container": "#a8b4ff",
+                      "on-secondary-fixed": "#00105c",
+                      "surface-dim": "#0b1326",
+                      "surface-container-high": "#222a3d",
+                      "on-secondary-fixed-variant": "#293ca0",
+                      "error": "#ffb4ab",
+                      "outline": "#8d90a0",
+                      "surface": "#0b1326",
+                      "on-secondary": "#08218a",
+                      "on-tertiary-container": "#33e6ff",
+                      "primary-fixed-dim": "#b2c5ff",
+                      "outline-variant": "#434654",
+                      "on-error-container": "#ffdad6",
+                      "surface-variant": "#2d3449",
+                      "inverse-on-surface": "#283044",
+                      "on-primary-fixed": "#001848",
+                      "on-primary": "#002b73",
+                      "surface-container-lowest": "#060e20",
+                      "on-primary-container": "#c4d2ff",
+                      "on-background": "#dae2fd",
+                      "tertiary-container": "#006470",
+                      "on-error": "#690005",
+                      "on-tertiary": "#00363d",
+                      "on-primary-fixed-variant": "#0040a2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "32px",
+                      "container-max": "1200px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Hanken Grotesk"],
+                      "display-lg": ["Hanken Grotesk"],
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "timer-xl": ["JetBrains Mono"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                      "display-lg": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                      "timer-xl": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.05em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col overflow-hidden selection:bg-primary selection:text-on-primary">
+<!-- HUD Overlay Effects -->
+<div class="scanline"></div>
+<div class="fixed inset-0 pointer-events-none border-[12px] border-surface-container-low/20 z-50"></div>
+<!-- Top Navigation (Shell Implementation) -->
+<!-- Content: MISSION CONTROL (Exact string) -->
+<header class="bg-background dark:bg-background text-primary dark:text-primary w-full top-0 border-b border-outline-variant flex justify-between items-center px-margin-mobile py-4 z-40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary/30 bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-tech digital avatar portrait in a tactical HUD style. The user face is subtly illuminated by blue interface light, with a minimalist, clean background in deep navy and cyber-cyan accents. The aesthetic is modern corporate meets high-efficiency software design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2PvST4IoSk4dSNmllTo_1P_GFM_dvGjK5CJZZVHq5Wjetvmzswv5eASaqXKFCEZdWajCqqAsRQnRM26439aljYuCbrApymLjeeieVp1p4LinYNFn4wAadSZ3zWg39T5IgzQbicNFeM1oTta4MD_31dwOQX8Edq6edkW_4zqzFsGjLRXj4Nv2dlogkU6tEI_HT30JbKs6yZyk_eEowWuALN7CduUgv0K1ubCIg7GjEAejYosTAKD2r5A"/>
+</div>
+<span class="font-label-caps text-label-caps tracking-widest text-primary uppercase">MISSION CONTROL</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-[18px] text-tertiary">group</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">BUDDY NOTIFIED</span>
+</div>
+<button class="hover:bg-surface-container-high transition-colors p-2 rounded-lg active:scale-95 duration-100">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Focus Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center relative px-margin-mobile">
+<!-- Challenge Identity -->
+<div class="absolute top-12 text-center space-y-2">
+<p class="font-label-caps text-label-caps text-primary tracking-[0.2em] opacity-80 uppercase">Active Objective</p>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">MORNING POWER HOUR</h1>
+</div>
+<!-- Central HUD Timer -->
+<div class="relative flex flex-col items-center">
+<!-- Ghost Mode Background Elements -->
+<div class="absolute -inset-16 ghost-blur rounded-full opacity-20 border border-primary/10"></div>
+<div class="relative z-10 text-center">
+<h2 class="font-label-caps text-label-caps text-tertiary mb-4 tracking-widest uppercase">Hydrate</h2>
+<div class="font-timer-xl text-timer-xl md:text-[120px] md:leading-none text-primary timer-glow font-bold" id="countdown">
+                    05:00
+                </div>
+<div class="mt-4 flex items-center justify-center gap-2">
+<div class="h-[2px] w-12 bg-outline-variant"></div>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-tighter">System Nominal</span>
+<div class="h-[2px] w-12 bg-outline-variant"></div>
+</div>
+</div>
+</div>
+<!-- Performance / Pace HUD (The Ghost Bar) -->
+<div class="w-full max-w-md mt-16 space-y-3">
+<div class="flex justify-between items-end px-1">
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">Pace Delta</span>
+<span class="font-label-caps text-[12px] text-tertiary">+00:12 Ahead of PB</span>
+</div>
+<div class="h-4 w-full bg-surface-container-highest/30 rounded-lg overflow-hidden border border-outline-variant/30 p-[2px]">
+<div class="relative h-full w-full">
+<!-- PB Marker -->
+<div class="absolute left-[65%] top-0 bottom-0 w-[2px] bg-error z-20 shadow-[0_0_8px_rgba(255,180,171,0.5)]">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 font-label-caps text-[8px] text-error">PB</div>
+</div>
+<!-- Current Pace Bar -->
+<div class="h-full bg-tertiary shadow-[0_0_12px_rgba(0,218,243,0.4)] rounded-sm transition-all duration-1000" style="width: 72%;"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Actions / Peripheral HUD -->
+<footer class="p-margin-mobile space-y-6 mb-16 md:mb-0">
+<!-- Next Task Preview (Peripheral Area) -->
+<div class="max-w-md mx-auto p-4 rounded-xl border border-outline-variant bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded border border-outline-variant bg-background flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">fitness_center</span>
+</div>
+<div>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest">Next Phase</p>
+<p class="font-headline-lg-mobile text-[18px] text-on-surface">Workout (15:00)</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<!-- Controls -->
+<div class="flex flex-row gap-4 max-w-md mx-auto">
+<button class="flex-1 py-4 px-6 bg-surface-container-highest border border-outline-variant rounded-lg font-label-caps text-label-caps text-on-surface hover:bg-surface-container-high transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">redo</span>
+                SKIP
+            </button>
+<button class="flex-[2] py-4 px-6 bg-primary text-on-primary rounded-lg font-label-caps text-label-caps font-bold hover:brightness-110 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(178,197,255,0.25)]">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                DONE
+            </button>
+</div>
+</footer>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full h-16 flex justify-around items-center px-margin-mobile border-t border-outline-variant bg-surface-container-lowest z-50">
+<!-- Home -->
+<div class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">home</span>
+</div>
+<!-- Active Assignment (The Focus Mode) -->
+<div class="flex items-center justify-center bg-primary-container text-on-primary-container rounded-full p-3 active:translate-y-0.5 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+</div>
+<!-- Leaderboard -->
+<div class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">leaderboard</span>
+</div>
+<!-- Settings -->
+<div class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+</div>
+</nav>
+<!-- Interactive Script for Micro-interactions -->
+<script>
+        // Simple countdown logic
+        let time = 300; // 5 minutes
+        const display = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            display.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (time <= 0) {
+                clearInterval(timer);
+                display.classList.add('text-error');
+            } else {
+                time--;
+            }
+        }, 1000);
+
+        // HUD Pulsing effect on timer
+        setInterval(() => {
+            display.classList.toggle('opacity-90');
+        }, 1500);
+    </script>
+</body></html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MISSION CONTROL - Task Creation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@700;800&amp;family=JetBrains+Mono:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ghost-blur {
+            backdrop-filter: blur(12px);
+            background-color: rgba(11, 19, 38, 0.1);
+        }
+        .block-cursor {
+            caret-shape: block;
+        }
+        input:focus {
+            outline: none;
+        }
+        /* Custom scrollbar for HUD feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1326;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #434654;
+            border-radius: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#2d3449",
+                        "surface-tint": "#b2c5ff",
+                        "inverse-surface": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "error-container": "#93000a",
+                        "primary": "#b2c5ff",
+                        "on-surface-variant": "#c3c6d6",
+                        "secondary": "#bac3ff",
+                        "on-surface": "#dae2fd",
+                        "primary-container": "#0052cc",
+                        "secondary-fixed-dim": "#bac3ff",
+                        "on-tertiary-fixed-variant": "#004f58",
+                        "secondary-fixed": "#dee0ff",
+                        "on-tertiary-fixed": "#001f24",
+                        "primary-fixed": "#dae2ff",
+                        "surface-container-low": "#131b2e",
+                        "tertiary-fixed": "#9cf0ff",
+                        "background": "#0b1326",
+                        "tertiary-fixed-dim": "#00daf3",
+                        "tertiary": "#00daf3",
+                        "surface-container": "#171f33",
+                        "secondary-container": "#2c3ea3",
+                        "inverse-primary": "#0c56d0",
+                        "on-secondary-container": "#a8b4ff",
+                        "on-secondary-fixed": "#00105c",
+                        "surface-dim": "#0b1326",
+                        "surface-container-high": "#222a3d",
+                        "on-secondary-fixed-variant": "#293ca0",
+                        "error": "#ffb4ab",
+                        "outline": "#8d90a0",
+                        "surface": "#0b1326",
+                        "on-secondary": "#08218a",
+                        "on-tertiary-container": "#33e6ff",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "outline-variant": "#434654",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#2d3449",
+                        "inverse-on-surface": "#283044",
+                        "on-primary-fixed": "#001848",
+                        "on-primary": "#002b73",
+                        "surface-container-lowest": "#060e20",
+                        "on-primary-container": "#c4d2ff",
+                        "on-background": "#dae2fd",
+                        "tertiary-container": "#006470",
+                        "on-error": "#690005",
+                        "on-tertiary": "#00363d",
+                        "on-primary-fixed-variant": "#0040a2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "32px",
+                        "container-max": "1200px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "timer-xl": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "timer-xl": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.05em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="w-full top-0 border-b border-outline-variant bg-background flex justify-between items-center px-margin-mobile py-4 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A futuristic HUD-style digital portrait of a user profile. The image has a glitch-aesthetic with neon cyan data overlays and a clinical dark blue background. The lighting is harsh and electronic, emphasizing a high-tech, high-efficiency task management environment. Minimalist corporate reliability meets cyberpunk utility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBopUmZXIihRk_blXljMRgeJy-d9Liff6NWKo6pAc_lHH5OCo987PJRDWokkhGblgR8t4ojpwk4F6CDoyGzFVDT3CGr1co-GfJhz9WBdTWpyud83tjGwq4i_U1IRJTPCGTfg_mHuKmJr5pKW7QpXE5UWzxB0E_fFDqebEZGy9mYQwxdBafUePpx1G9-buLT0EIXvLwdpydRu3ZVd-OhXPmj7Z5MprIjx5T7ve-49SSfUHXnGbB0DnLQ-A"/>
+</div>
+<h1 class="font-label-caps text-label-caps tracking-widest text-primary">MISSION CONTROL</h1>
+</div>
+<button class="text-primary hover:bg-surface-container-high transition-colors p-2 rounded-lg active:scale-95 duration-100">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="px-margin-mobile py-8 pb-24 max-w-container-max mx-auto">
+<div class="mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-2">INITIALIZE OBJECTIVE</h2>
+<p class="text-on-surface-variant font-label-caps text-[10px] uppercase tracking-wider">Module: TASK_CREATION_v4.2</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Primary Input Block -->
+<div class="md:col-span-8 space-y-gutter">
+<section class="bg-surface-container border border-outline-variant p-6 rounded-lg">
+<label class="block font-label-caps text-label-caps text-primary mb-4">WHAT'S THE TASK?</label>
+<input class="w-full bg-surface-container-low border-b-2 border-primary focus:border-tertiary px-4 py-3 font-label-caps text-lg text-on-surface block-cursor placeholder:text-outline-variant transition-all rounded-t-lg" placeholder="ENTER OBJECTIVE NAME..." type="text"/>
+<div class="mt-6 flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface">REUSABLE</span>
+<span class="text-[10px] text-on-surface-variant max-w-[200px]">Suggest this task when you start typing.</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-12 h-6 bg-surface-container-highest peer-focus:outline-none rounded-none peer-checked:after:translate-x-full peer-checked:after:bg-tertiary after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-outline-variant after:border-none after:h-4 after:w-5 after:transition-all peer-checked:bg-tertiary-container"></div>
+</label>
+</div>
+</section>
+<!-- Tags and List Selection -->
+<section class="bg-surface-container border border-outline-variant p-6 rounded-lg grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-4">TAG CLASSIFICATION</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-outline-variant font-label-caps text-[11px] hover:border-primary transition-colors text-on-surface-variant bg-surface-container-low">WORK</button>
+<button class="px-3 py-1.5 rounded-lg border border-primary font-label-caps text-[11px] bg-primary-container text-on-primary-container">HOME</button>
+<button class="px-3 py-1.5 rounded-lg border border-outline-variant font-label-caps text-[11px] hover:border-primary transition-colors text-on-surface-variant bg-surface-container-low">HEALTH</button>
+</div>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-primary mb-4">LIST ASSIGNMENT</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2.5 font-body-md text-sm appearance-none focus:ring-1 focus:ring-primary">
+<option>CORE OPERATIONS</option>
+<option>ROUTINE MAINTENANCE</option>
+<option>RESEARCH &amp; DEV</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar Controls -->
+<div class="md:col-span-4 space-y-gutter">
+<!-- Recurrence -->
+<section class="bg-surface-container border border-outline-variant p-6 rounded-lg">
+<label class="block font-label-caps text-label-caps text-primary mb-4">RECURRENCE PROTOCOL</label>
+<div class="space-y-3">
+<label class="flex items-center gap-3 p-3 bg-surface-container-low border border-outline-variant rounded hover:border-primary cursor-pointer transition-colors group">
+<input class="w-4 h-4 text-tertiary bg-surface-container border-outline-variant focus:ring-tertiary" name="period" type="radio"/>
+<span class="font-label-caps text-xs text-on-surface group-hover:text-tertiary transition-colors">DAILY REPEAT</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low border border-outline-variant rounded hover:border-primary cursor-pointer transition-colors group">
+<input checked="" class="w-4 h-4 text-tertiary bg-surface-container border-outline-variant focus:ring-tertiary" name="period" type="radio"/>
+<span class="font-label-caps text-xs text-on-surface group-hover:text-tertiary transition-colors">WEEKLY CYCLE</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-low border border-outline-variant rounded hover:border-primary cursor-pointer transition-colors group">
+<input class="w-4 h-4 text-tertiary bg-surface-container border-outline-variant focus:ring-tertiary" name="period" type="radio"/>
+<span class="font-label-caps text-xs text-on-surface group-hover:text-tertiary transition-colors">CUSTOM FREQUENCY</span>
+</label>
+</div>
+</section>
+<!-- Ghost Mode / PB -->
+<section class="relative bg-surface-container border-2 border-tertiary p-6 rounded-lg overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+
+</div>
+<div class="relative z-10 flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">mobile_hand_off</span>
+<span class="font-label-caps text-label-caps text-tertiary">GHOST MODE</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-10 h-5 bg-surface-container-highest rounded-none peer-checked:after:translate-x-full peer-checked:after:bg-tertiary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-outline-variant after:h-4 after:w-4 after:transition-all peer-checked:bg-tertiary-container"></div>
+</label>
+</div>
+<p class="text-[10px] text-tertiary/70 leading-relaxed font-label-caps uppercase">Track personal best completion times. A phantom progress bar will pace your previous record.</p>
+<div class="bg-surface-container-low border border-tertiary/30 p-3 rounded">
+<span class="block text-[9px] text-on-surface-variant font-label-caps mb-1">RECORD_PB</span>
+<span class="font-timer-xl text-3xl text-tertiary leading-none">00:12:45</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Submit Section -->
+<div class="mt-8 flex justify-end gap-4">
+<button class="px-8 py-3 rounded-lg border border-outline-variant font-label-caps text-sm text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95">
+                ABORT
+            </button>
+<button class="px-10 py-3 rounded-lg bg-primary text-on-primary font-label-caps text-sm font-bold shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
+                COMMIT TASK
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-16 flex justify-around items-center px-margin-mobile bg-surface-container-lowest border-t border-outline-variant z-50">
+<button class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary transition-colors active:translate-y-0.5">
+<span class="material-symbols-outlined">home</span>
+</button>
+<button class="flex items-center justify-center bg-primary-container text-on-primary-container rounded-full p-3 hover:text-primary transition-colors active:translate-y-0.5">
+<span class="material-symbols-outlined">assignment</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary transition-colors active:translate-y-0.5">
+<span class="material-symbols-outlined">leaderboard</span>
+</button>
+<button class="flex items-center justify-center text-on-surface-variant p-3 hover:text-primary transition-colors active:translate-y-0.5">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for active tag selection
+        document.querySelectorAll('button[class*="classification"]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // This is a placeholder logic for demonstration
+                console.log('Tag selected');
+            });
+        });
+
+        // Block cursor blinking effect simulation for the primary task input
+        const input = document.querySelector('input[type="text"]');
+        input.addEventListener('focus', () => {
+            input.classList.add('border-tertiary');
+        });
+        input.addEventListener('blur', () => {
+            input.classList.remove('border-tertiary');
+        });
+    </script>
+
+  <div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(6, 14, 32, 0.98); border: 2px solid #00daf3; border-radius: 30px; padding: 12px 24px; display: flex; align-items: center; gap: 16px; z-index: 999999; box-shadow: 0 0 30px rgba(0,218,243,0.6); backdrop-filter: blur(16px);">
+    
+      <a href="/mission_control_home/index.html" onclick="console.log('[PROTOTYPE DEBUG] Navigating to A: Mission Control')" style="text-decoration: none; padding: 8px 16px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: bold; transition: all 0.2s; background: #171f33; color: #dae2fd; border: 1px solid #434654;">
+        A: Mission Control
+      </a>
+    
+      <a href="/focus_hud_active_challenge/index.html" onclick="console.log('[PROTOTYPE DEBUG] Navigating to B: Focus HUD Mode')" style="text-decoration: none; padding: 8px 16px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: bold; transition: all 0.2s; background: #171f33; color: #dae2fd; border: 1px solid #434654;">
+        B: Focus HUD Mode
+      </a>
+    
+      <a href="/task_routine_config/index.html" onclick="console.log('[PROTOTYPE DEBUG] Navigating to C: Task & Routine Config')" style="text-decoration: none; padding: 8px 16px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: bold; transition: all 0.2s; background: #00daf3; color: #060e20;">
+        C: Task & Routine Config
+      </a>
+    
+      <a href="/temporal_performance_plot/index.html" onclick="console.log('[PROTOTYPE DEBUG] Navigating to D: Analytics & Performance')" style="text-decoration: none; padding: 8px 16px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: bold; transition: all 0.2s; background: #171f33; color: #dae2fd; border: 1px solid #434654;">
+        D: Analytics & Performance
+      </a>
+    
+  </div>
+
+  <script>
+    console.log('[PROTOTYPE DEBUG] Loaded Variant C: Task & Routine Config');
+    document.addEventListener('keydown', (e) => {
+      console.log('[PROTOTYPE DEBUG] Key pressed:', e.key);
+      if (e.key === 'ArrowRight') {
+        const nextIdx = (2 + 1) % 4;
+        const nextFolders = ['mission_control_home', 'focus_hud_active_challenge', 'task_routine_config', 'temporal_performance_plot'];
+        console.log('[PROTOTYPE DEBUG] ArrowRight -> redirecting to', nextFolders[nextIdx]);
+        window.location.href = '/' + nextFolders[nextIdx] + '/index.html';
+      }
+      if (e.key === 'ArrowLeft') {
+        const prevIdx = (2 - 1 + 4) % 4;
+        const prevFolders = ['mission_control_home', 'focus_hud_active_challenge', 'task_routine_config', 'temporal_performance_plot'];
+        console.log('[PROTOTYPE DEBUG] ArrowLeft -> redirecting to', prevFolders[prevIdx]);
+        window.location.href = '/' + prevFolders[prevIdx] + '/index.html';
+      }
+    });
+  </script>
+  </body>
+  </html>

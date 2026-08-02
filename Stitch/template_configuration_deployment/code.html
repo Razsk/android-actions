@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic HUD - Template Configuration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#0b1326",
+                    "on-secondary-container": "#a8b4ff",
+                    "tertiary-fixed-dim": "#00daf3",
+                    "on-primary-container": "#c4d2ff",
+                    "on-tertiary-fixed-variant": "#004f58",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#222a3d",
+                    "secondary-fixed-dim": "#bac3ff",
+                    "primary-container": "#0052cc",
+                    "on-tertiary-fixed": "#001f24",
+                    "on-secondary": "#08218a",
+                    "inverse-primary": "#0c56d0",
+                    "on-surface-variant": "#c3c6d6",
+                    "outline": "#8d90a0",
+                    "on-secondary-fixed": "#00105c",
+                    "outline-variant": "#434654",
+                    "surface-container": "#171f33",
+                    "background": "#0b1326",
+                    "on-tertiary-container": "#33e6ff",
+                    "surface-container-lowest": "#060e20",
+                    "on-primary-fixed-variant": "#0040a2",
+                    "tertiary-container": "#006470",
+                    "surface-container-highest": "#2d3449",
+                    "primary-fixed-dim": "#b2c5ff",
+                    "on-background": "#dae2fd",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#b2c5ff",
+                    "on-surface": "#dae2fd",
+                    "surface-tint": "#b2c5ff",
+                    "on-secondary-fixed-variant": "#293ca0",
+                    "surface-variant": "#2d3449",
+                    "surface-bright": "#31394d",
+                    "inverse-on-surface": "#283044",
+                    "on-primary-fixed": "#001848",
+                    "tertiary": "#00daf3",
+                    "primary-fixed": "#dae2ff",
+                    "inverse-surface": "#dae2fd",
+                    "surface": "#0b1326",
+                    "secondary-fixed": "#dee0ff",
+                    "secondary": "#bac3ff",
+                    "tertiary-fixed": "#9cf0ff",
+                    "on-tertiary": "#00363d",
+                    "error-container": "#93000a",
+                    "on-error": "#690005",
+                    "surface-container-low": "#131b2e",
+                    "secondary-container": "#2c3ea3",
+                    "on-primary": "#002b73"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "margin-mobile": "20px",
+                    "container-max": "1200px",
+                    "margin-desktop": "32px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "label-caps": ["JetBrains Mono"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "timer-xl": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "display-lg": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "timer-xl": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.05em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b1326;
+            color: #dae2fd;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hud-border {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hud-border-accent {
+            border: 1px solid #00daf3;
+        }
+
+        /* Technical Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #434654;
+            border-radius: 0px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 16px;
+            width: 8px;
+            border-radius: 0px;
+            background: #00daf3;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(0, 218, 243, 0.5);
+        }
+
+        /* Glassmorphism focus mode background */
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.6);
+            backdrop-filter: blur(12px);
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 218, 243, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            pointer-events: none;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            from { top: 0%; }
+            to { top: 100%; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top AppBar (from JSON) -->
+<header class="w-full top-0 sticky bg-surface-dim dark:bg-surface-dim border-b border-outline-variant flex justify-between items-center px-margin-mobile h-16 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full border border-primary/30 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed close-up of a tactical user profile interface, featuring a futuristic biometric eye scan graphic in glowing cyan and deep indigo. The design uses high-contrast vector lines and clinical data readouts to create a secure, authoritative HUD aesthetic. The lighting is low-key, emphasizing the sharp digital clarity of the interface elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY4TeJgoLZ33MUD6u4UifdGjkTV93sgZf84ohn5homS4Swf9C4C0f7IHvyl9RcHBkVa3k54xgh_DAjCQxnwbjd8IgOXnQqwFeYxM2O_8EO60weLh5_QSZ3iFbYgJ4S0IAnQBo69NWdJny_1SZS4zyK1VwOW3100kGw9fuVTdf3No5GBx1Z6Zm8Y5rS6M8vkRvnUxSLtlApkvRkUQU4om8N9ZJDZKqTLFAkqpK98Poul9NUoO4b2aN7vw"/>
+</div>
+<span class="font-label-caps text-label-caps font-bold tracking-widest text-tertiary">KINETIC HUD</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:text-tertiary transition-colors active:opacity-80">notifications</span>
+</div>
+</header>
+<main class="relative min-h-screen pb-32">
+<div class="scanline"></div>
+<!-- Background Animation -->
+<div class="fixed inset-0 pointer-events-none -z-10 opacity-20">
+
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile pt-8 space-y-8">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-label-caps text-label-caps uppercase tracking-tighter">System Configuration // Template</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface uppercase tracking-tight">Morning Power Hour Protocol</h1>
+</div>
+<div class="flex items-center gap-4 bg-surface-container-high p-3 rounded-lg hud-border">
+<div class="text-right">
+<div class="font-label-caps text-[10px] text-outline">ESTIMATED POTENTIAL</div>
+<div class="font-timer-xl text-[24px] text-tertiary leading-none">+12.4%</div>
+</div>
+<span class="material-symbols-outlined text-tertiary text-3xl">query_stats</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Mission Parameters (Bento Style Card) -->
+<section class="lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container-low hud-border p-6 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">tune</span>
+<h2 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Mission Parameters</h2>
+</div>
+<div class="space-y-8">
+<!-- Slider: Duration -->
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<label class="font-label-caps text-outline text-[11px] uppercase">Active Engagement Duration</label>
+<span class="font-label-caps text-primary text-[14px]">60 MINUTES</span>
+</div>
+<input class="w-full" max="180" min="15" type="range" value="60"/>
+<div class="flex justify-between text-[10px] font-label-caps text-outline-variant">
+<span>15M</span>
+<span>180M</span>
+</div>
+</div>
+<!-- Slider: Start Time -->
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<label class="font-label-caps text-outline text-[11px] uppercase">Daily Initialization (Start)</label>
+<span class="font-label-caps text-primary text-[14px]">06:00 AM</span>
+</div>
+<input class="w-full" max="23" min="0" type="range" value="6"/>
+<div class="flex justify-between text-[10px] font-label-caps text-outline-variant">
+<span>00:00</span>
+<span>23:00</span>
+</div>
+</div>
+<!-- Toggles: Drift Tolerance -->
+<div class="flex flex-wrap gap-4 items-center justify-between p-4 bg-surface-container-highest/30 hud-border rounded-lg">
+<div class="space-y-1">
+<div class="font-label-caps text-[12px] text-on-surface">DRIFT TOLERANCE</div>
+<div class="text-[11px] text-outline max-w-[200px]">Strict window adherence with 2% penalty for late initialization.</div>
+</div>
+<div class="flex gap-2 bg-background p-1 hud-border rounded">
+<button class="px-4 py-1 font-label-caps text-[10px] bg-secondary-container text-on-secondary-container rounded-sm transition-all">STRICT</button>
+<button class="px-4 py-1 font-label-caps text-[10px] text-outline hover:text-on-surface transition-all">ADAPTIVE</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Buddy Protocol Selection -->
+<div class="bg-surface-container-low hud-border p-6 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-secondary">group</span>
+<h2 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Buddy Protocol</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Buddy Card 1 -->
+<div class="p-4 bg-surface-container-high hud-border group cursor-pointer hover:border-secondary transition-all flex flex-col items-center text-center gap-3">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-secondary" data-alt="A portrait of a focused professional wearing a futuristic communication headset, set against a dark architectural background with subtle blue neon lighting. The image style is sharp and cinematic, evoking a high-stakes, collaborative tech environment. The color palette is dominated by deep blues, slate grays, and highlights of crisp white." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUGbS-1xpNaUgnApGIIpBWm2H7_0NGP3HMFK280jIrhfYE41T_H5Y29JjefE8_vAcm4Lkh8WHl7Hla8mdMj3abIDSLezoCa9B5uQqJsZJXOs0uewypOEKiwaAlyM_OJX2w32IOdpzcpyOwSA5D4eE2wdwyG7zAwDFHC2ygYrlGQgwrAaQ4sufGVh6Dl1o4DiSVI63qUDLq7KF3AsIogooPoDuM8nKm69C9gGn4iEephFl3AyiMW__EQg"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-tertiary rounded-full border-2 border-surface-container-high"></div>
+</div>
+<div>
+<div class="font-label-caps text-[12px] text-on-surface">OPERATOR_X</div>
+<div class="text-[10px] text-outline">SYNC: 98%</div>
+</div>
+<button class="w-full py-1 font-label-caps text-[9px] border border-outline-variant group-hover:bg-secondary group-hover:text-on-secondary transition-colors">ESTABLISH LINK</button>
+</div>
+<!-- Buddy Card 2 -->
+<div class="p-4 bg-surface-container-high border border-secondary/50 group cursor-pointer flex flex-col items-center text-center gap-3 relative">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-secondary" data-alt="A professional woman with a minimalist aesthetic, looking confidently at a digital screen that isn't visible. The lighting is high-contrast, casting sharp shadows and highlighting technical details in her modern workspace. The overall mood is clinical and authoritative, with a color palette of indigo, teal, and dark neutral tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj6EL75WHU8OHXhfZ84YREoxTypxBgFDgXyktamKcwdhU0duSutkUGiDw662nK509hOGQQvK5_oq0e339lsvsxOlZDhIZ4H8arSt66laql9p355qKqdZIBS988YYgTYDVF6NPm7INtpvDWk0GRwshRWrf1MUiDRYsPipv3E8Ci1co3lSbanLy3ScTxmRlip7Y0EcYb9Pw52E7I7Gb6YrP1ATn76i-b4-wRnyy8_qnXAiS0JJaJRPxdXQ"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-tertiary rounded-full border-2 border-surface-container-high"></div>
+</div>
+<div>
+<div class="font-label-caps text-[12px] text-on-surface">VALKYRIE_01</div>
+<div class="text-[10px] text-outline">SYNC: 84%</div>
+</div>
+<button class="w-full py-1 font-label-caps text-[9px] bg-secondary text-on-secondary transition-colors">LINK ACTIVE</button>
+</div>
+<!-- Buddy Card 3 -->
+<div class="p-4 bg-surface-container-high hud-border group cursor-pointer hover:border-secondary transition-all flex flex-col items-center text-center gap-3 opacity-60">
+<div class="relative grayscale">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-outline" data-alt="A minimalist architectural detail of a high-tech server room with glowing blue fiber optic lines and sleek metallic surfaces. The perspective is low, creating a sense of scale and technical complexity. The lighting is dim with sharp, artificial highlights in cool tones, emphasizing a clean and precise data-driven atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8iEXrjiTeqwpiXQa8l_nL9ug1YWE9HMePEcg0kYusM3vwlEECWpZAyqelrmG75kY5DS--zpv60VA0omQU-QvvybTp7hMmdhT2-f0Lb0CKVQXOU5o8YlEPPTGtbZ10aO-fXgmhsbLpC7ba9cdTJx6724LK8jW5AffRFJEDWb9kBBBGEDOMlfdX3CWJnO0aSrm3b8kZMksCVgE4ZNE7MqE8LHTssjg-vrNsuC9gt5Y0K-Jj6X02l41vgA"/>
+</div>
+<div>
+<div class="font-label-caps text-[12px] text-on-surface">GHOST_NODE</div>
+<div class="text-[10px] text-outline">OFFLINE</div>
+</div>
+<button class="w-full py-1 font-label-caps text-[9px] border border-outline-variant cursor-not-allowed" disabled="">UNAVAILABLE</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Reward Logic & Summary -->
+<section class="lg:col-span-4 space-y-gutter">
+<div class="bg-surface-container-low hud-border p-6 h-full relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]">rewarded_ads</span>
+</div>
+<div class="flex items-center gap-2 mb-8">
+<span class="material-symbols-outlined text-tertiary">military_tech</span>
+<h2 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Reward Logic</h2>
+</div>
+<div class="space-y-6">
+<!-- Visual Metric 1 -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-outline uppercase">Neural Load Impact</span>
+<span class="text-tertiary">LOW</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[30%]"></div>
+</div>
+</div>
+<!-- Visual Metric 2 -->
+<div class="space-y-2">
+<div class="flex justify-between items-center text-[11px] font-label-caps">
+<span class="text-outline uppercase">Productivity Multiplier</span>
+<span class="text-primary">x1.45</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%] shadow-[0_0_8px_rgba(178,197,255,0.4)]"></div>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant space-y-4">
+<div class="p-4 bg-surface-container/50 hud-border rounded-lg space-y-3">
+<div class="font-label-caps text-[10px] text-outline uppercase tracking-widest">Expected Yield (Weekly)</div>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-[12px]">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_small</span>
+<span>+450 XP (Efficiency Core)</span>
+</li>
+<li class="flex items-center gap-2 text-[12px]">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_small</span>
+<span>2x Focus Shards</span>
+</li>
+<li class="flex items-center gap-2 text-[12px]">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_small</span>
+<span>Unlocks 'Deep Work' Tier II</span>
+</li>
+</ul>
+</div>
+<div class="p-4 border border-tertiary/20 bg-tertiary/5 rounded-lg">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary">info</span>
+<p class="text-[11px] leading-relaxed text-on-surface-variant">
+                                            Completion of this protocol for 5 consecutive days triggers a <span class="text-tertiary font-bold italic">Flow State Overdrive</span>, boosting all task completion XP by 25%.
+                                        </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer Action Bar -->
+<div class="fixed bottom-0 w-full z-50 bg-surface-container-low/80 backdrop-blur-md border-t border-outline-variant pb-safe">
+<div class="max-w-container-max mx-auto px-4 py-6 flex flex-col md:flex-row items-center gap-4">
+<div class="flex-1 hidden md:block">
+<div class="font-label-caps text-[10px] text-outline tracking-[0.2em] uppercase">Deployment Status</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+<span class="font-label-caps text-[12px] text-on-surface">READY FOR INITIALIZATION</span>
+</div>
+</div>
+<div class="w-full md:w-auto flex gap-4">
+<button class="flex-1 md:px-8 py-3 font-label-caps text-label-caps border border-outline-variant hover:bg-surface-container-high transition-all uppercase tracking-widest active:scale-95">
+                    Cancel Request
+                </button>
+<button class="flex-1 md:px-12 py-3 font-label-caps text-label-caps bg-primary text-on-primary font-bold hover:opacity-90 transition-all uppercase tracking-widest active:scale-95 shadow-[0_4px_20px_rgba(0,82,204,0.3)] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+                    Initialize Mission
+                </button>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Bar (Hidden on Desktop, Visible on Mobile if top-level, but technically this is a sub-page config) -->
+<!-- Suppressed per rule "Shell Visibility: exclude if task-focused sub-page featuring a 'Back' action" -->
+<script>
+        // Simple micro-interaction for sliders
+        const sliders = document.querySelectorAll('input[type="range"]');
+        sliders.forEach(slider => {
+            slider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                const parent = e.target.closest('.space-y-4');
+                const display = parent.querySelector('.text-primary');
+                if (display) {
+                    if (display.innerText.includes('MINUTES')) {
+                        display.innerText = `${val} MINUTES`;
+                    } else if (display.innerText.includes('AM')) {
+                        const hour = val.padStart(2, '0');
+                        display.innerText = `${hour}:00 AM`;
+                    }
+                }
+            });
+        });
+
+        // Initialize Mission click effect
+        const initBtn = document.querySelector('button.bg-primary');
+        initBtn.addEventListener('click', () => {
+            initBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> DEPLOYING...';
+            initBtn.style.opacity = '0.7';
+            initBtn.disabled = true;
+            setTimeout(() => {
+                alert('MISSION INITIALIZED: Morning Power Hour Protocol is now active.');
+                window.location.reload();
+            }, 1500);
+        });
+    </script>
+</body></html>
