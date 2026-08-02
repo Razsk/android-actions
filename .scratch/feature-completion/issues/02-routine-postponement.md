@@ -5,9 +5,9 @@ A 1-tap **Postpone** button on due routine cards on Mission Control. Defers rout
 
 **Blocked by:** 01 — Task Creation Bottom Sheet Modal & Persistence
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] 1-tap Postpone button on due routine cards.
-- [ ] Uses default deferral period or presents quick selector (`+1 Day`, `+3 Days`, `Custom`).
-- [ ] Updates `RoutineEntity.dueTimestamp` and sets `isPostponed = true`.
-- [ ] Inserts `TaskExecutionLog(actionType = ActionType.POSTPONED)` to feed Gemma AI optimization.
+- [x] 1-tap Postpone button on due routine cards.
+- [x] Uses default deferral period or presents quick selector (`+1 Day`, `+3 Days`, `Custom`).
+- [x] Updates `RoutineEntity.dueTimestamp` and sets `isPostponed = true`.
+- [x] Inserts `TaskExecutionLog(actionType = ActionType.POSTPONED)` to feed Gemma AI optimization.
