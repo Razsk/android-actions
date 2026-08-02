@@ -49,7 +49,7 @@ fun TaskCreationBottomSheet(
     sheetState: SheetState = rememberModalBottomSheetState()
 ) {
     var title by remember { mutableStateOf("") }
-    var tagsList by remember { mutableStateOf(listOf("Work", "Health", "Home")) }
+    var tagsList by remember { mutableStateOf(listOf("Work", "Health", "Home", "Leisure")) }
     var selectedTags by remember { mutableStateOf(setOf("Work")) }
     var newTagInput by remember { mutableStateOf("") }
     var isAddingTag by remember { mutableStateOf(false) }
@@ -263,24 +263,17 @@ fun TaskCreationBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Reusable Task Toggle Switch
+            // Clean Reusable Task Toggle Switch (No subtext explanation)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
-                    Text(
-                        text = "REUSABLE TASK",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Text(
-                        text = "Save task definition in library for quick re-selection",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Text(
+                    text = "REUSABLE TASK",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
                 Switch(
                     checked = isReusable,
                     onCheckedChange = { isReusable = it },
