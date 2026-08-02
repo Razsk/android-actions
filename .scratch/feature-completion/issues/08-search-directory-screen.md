@@ -5,8 +5,8 @@ A dedicated **Search & Directory** screen accessible via the 4-destination botto
 
 **Blocked by:** 01 — Task Creation Bottom Sheet Modal & Persistence
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Add `Search` tab to 4-item bottom `NavigationBar` (`Mission Control ⚡`, `Search 🔍`, `Challenges 🏆`, `Stats 📊`).
-- [ ] Build `SearchScreen`Compose view with text search field and filter chips.
-- [ ] Render all active, reusable, and future background routines matching search query.
+- [x] Add `Search` tab to 4-item bottom `NavigationBar` (`Mission Control ⚡`, `Search 🔍`, `Challenges 🏆`, `Stats 📊`).
+- [x] Build `SearchScreen`Compose view with text search field and filter chips.
+- [x] Render all active, reusable, and future background routines matching search query.
