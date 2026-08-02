@@ -119,16 +119,17 @@ internal fun StatsDashboardContent(
         HudCard(title = "WEEKLY CONSISTENCY HEATMAP") {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 stats.weeklyConsistency.forEach { daily ->
                     Column(
+                        modifier = Modifier.weight(1f),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth(0.12f)
+                                .fillMaxWidth()
                                 .height(44.dp)
                                 .background(
                                     if (daily.intensityFraction > 0f) CyberCyan.copy(alpha = 0.2f + (daily.intensityFraction * 0.8f)) else SurfaceContainer,
