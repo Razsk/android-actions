@@ -1,5 +1,6 @@
 package com.example.androidactions.ui.main
 
+import com.example.androidactions.data.ActionType
 import com.example.androidactions.data.DataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
@@ -51,6 +52,23 @@ class MainScreenViewModelTest {
         assertEquals(1, updatedState.createdRoutines.size)
         assertEquals("Morning Yoga", updatedState.createdTasks.first().title)
         assertEquals(1, updatedState.createdRoutines.first().frequencyDays)
+    }
+
+    @Test
+    fun postponeRoutine_recordsExecutionLogWithPostponedAction() = runTest {
+        val viewModel = MainScreenViewModel(FakeMyModelRepository())
+        val initialState = viewModel.uiState.filter { it is MainScreenUiState.Success }.first() as MainScreenUiState.Success
+        assertEquals(0, initialState.postponedLogs.size)
+
+        viewModel.postponeRoutine(taskId = 101L, deferDays = 3)
+
+        val updatedState = viewModel.uiState.filter {
+            it is MainScreenUiState.Success && it.postponedLogs.isNotEmpty()
+        }.first() as MainScreenUiState.Success
+
+        assertEquals(1, updatedState.postponedLogs.size)
+        assertEquals(101L, updatedState.postponedLogs.first().taskId)
+        assertEquals(ActionType.POSTPONED, updatedState.postponedLogs.first().actionType)
     }
 }
 

@@ -45,6 +45,7 @@ import com.example.androidactions.theme.SurfaceDark
 import com.example.androidactions.ui.hud.GhostProgressBar
 import com.example.androidactions.ui.hud.HudButton
 import com.example.androidactions.ui.hud.HudCard
+import com.example.androidactions.ui.postpone.PostponeDeferralBottomSheet
 import com.example.androidactions.ui.taskcreate.TaskCreationBottomSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +57,7 @@ fun MainScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     var showTaskCreationModal by remember { mutableStateOf(false) }
+    var selectedTaskToPostpone by remember { mutableStateOf<TaskEntity?>(null) }
 
     when (state) {
         MainScreenUiState.Loading -> {}
@@ -84,6 +86,13 @@ fun MainScreen(
                     onLaunchChallenge = { challengeId -> onItemClick(FocusHud(challengeId)) },
                     onAcceptCard = { taskId -> viewModel.acceptSuggestionCard(taskId) },
                     onOpenTaskCreation = { showTaskCreationModal = true },
+                    onPostponeClick = { task ->
+                        if (task.defaultPeriodDays > 0) {
+                            viewModel.postponeRoutine(task.id, task.defaultPeriodDays)
+                        } else {
+                            selectedTaskToPostpone = task
+                        }
+                    },
                     modifier = Modifier.padding(padding)
                 )
 
@@ -92,6 +101,17 @@ fun MainScreen(
                         onDismiss = { showTaskCreationModal = false },
                         onSaveTask = { title, tags, listName, frequencyDays, isReusable ->
                             viewModel.createNewTask(title, tags, listName, frequencyDays, isReusable)
+                        }
+                    )
+                }
+
+                selectedTaskToPostpone?.let { task ->
+                    PostponeDeferralBottomSheet(
+                        taskTitle = task.title,
+                        onDismiss = { selectedTaskToPostpone = null },
+                        onConfirmDeferral = { days ->
+                            viewModel.postponeRoutine(task.id, days)
+                            selectedTaskToPostpone = null
                         }
                     )
                 }
@@ -111,6 +131,7 @@ internal fun MissionControlScreen(
     onLaunchChallenge: (Long) -> Unit,
     onAcceptCard: (Long) -> Unit,
     onOpenTaskCreation: () -> Unit,
+    onPostponeClick: (TaskEntity) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -158,7 +179,7 @@ internal fun MissionControlScreen(
         HudCard(title = "DUE OBJECTIVES PROTOCOLS") {
             val sampleDueTasks = if (dueTasks.isNotEmpty()) dueTasks else listOf(
                 TaskEntity(id = 101L, title = "Morning Meditation & Breathing", defaultPeriodDays = 1, listName = "Health", tagsCsv = "Health,Routine"),
-                TaskEntity(id = 102L, title = "Review Daily Code Commit Logs", defaultPeriodDays = 1, listName = "Work", tagsCsv = "Work")
+                TaskEntity(id = 102L, title = "Review Daily Code Commit Logs", defaultPeriodDays = 0, listName = "Work", tagsCsv = "Work")
             )
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 sampleDueTasks.forEach { task ->
@@ -196,6 +217,7 @@ internal fun MissionControlScreen(
                         Box(
                             modifier = Modifier
                                 .border(1.dp, Color(0x338D90A0), RoundedCornerShape(4.dp))
+                                .clickable { onPostponeClick(task) }
                                 .padding(horizontal = 8.dp, vertical = 4.dp)
                         ) {
                             Text(
