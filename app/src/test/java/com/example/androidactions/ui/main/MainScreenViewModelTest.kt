@@ -33,6 +33,25 @@ class MainScreenViewModelTest {
         val updatedState = viewModel.uiState.filter { it is MainScreenUiState.Success }.first() as MainScreenUiState.Success
         assertEquals(0, updatedState.suggestionCards.size)
     }
+
+    @Test
+    fun createNewTask_addsTaskAndRoutineToState() = runTest {
+        val viewModel = MainScreenViewModel(FakeMyModelRepository())
+        val initialState = viewModel.uiState.filter { it is MainScreenUiState.Success }.first() as MainScreenUiState.Success
+        assertEquals(0, initialState.createdTasks.size)
+        assertEquals(0, initialState.createdRoutines.size)
+
+        viewModel.createNewTask("Morning Yoga", listOf("Health"), "Fitness", 1)
+
+        val updatedState = viewModel.uiState.filter {
+            it is MainScreenUiState.Success && it.createdTasks.isNotEmpty() && it.createdRoutines.isNotEmpty()
+        }.first() as MainScreenUiState.Success
+
+        assertEquals(1, updatedState.createdTasks.size)
+        assertEquals(1, updatedState.createdRoutines.size)
+        assertEquals("Morning Yoga", updatedState.createdTasks.first().title)
+        assertEquals(1, updatedState.createdRoutines.first().frequencyDays)
+    }
 }
 
 private class FakeMyModelRepository : DataRepository {
