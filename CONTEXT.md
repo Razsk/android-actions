@@ -71,3 +71,7 @@ _Avoid_: Results screen, game over view
 **Room Repository Persistence**:
 Binding Room `AppDatabase` DAOs directly to ViewModel state flows so user tasks, routines, logs, and split times persist across app restarts.
 _Avoid_: Local cache, offline store
+
+**Local Buddy Directory**:
+A lightweight Room entity (`BuddyEntity`) storing contact names and phone numbers/handles for quick 1-tap SMS intent selection during challenge updates.
+_Avoid_: Contact sync, social list
