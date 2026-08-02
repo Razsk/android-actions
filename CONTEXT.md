@@ -59,3 +59,7 @@ _Avoid_: Score, grade, completion rate
 **Consistency Heatmap**:
 A Cyber Cyan intensity grid mapping task completion volume across days of the week.
 _Avoid_: Activity map, streak grid
+
+**Kinetic Bottom Navigation**:
+A 3-destination bottom navigation bar (`Mission Control ⚡`, `Challenges 🏆`, `Stats 📊`) that automatically hides during active Focus HUD mode.
+_Avoid_: Tab bar, bottom menu
