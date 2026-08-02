@@ -5,9 +5,9 @@ A visual Routine Reliability Drift screen featuring a monthly/weekly consistency
 
 **Blocked by:** 02 — Interactive Routine Postponement & Deferral Selector
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Compose screen for Routine Reliability Drift accessible from Mission Control header.
-- [ ] Renders monthly/weekly consistency heatmap grid driven by `TaskExecutionLog` history.
-- [ ] Displays hourly completion performance distribution bar chart.
-- [ ] Calculates overall reliability score percentage.
+- [x] Compose screen for Routine Reliability Drift accessible from Mission Control header.
+- [x] Renders monthly/weekly consistency heatmap grid driven by `TaskExecutionLog` history.
+- [x] Displays hourly completion performance distribution bar chart.
+- [x] Calculates overall reliability score percentage.
