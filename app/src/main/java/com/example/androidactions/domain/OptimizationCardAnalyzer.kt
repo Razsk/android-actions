@@ -1,5 +1,6 @@
 package com.example.androidactions.domain
 
+import com.example.androidactions.data.ActionType
 import com.example.androidactions.data.TaskExecutionLog
 
 data class SuggestionCard(
@@ -13,7 +14,7 @@ data class SuggestionCard(
 class OptimizationCardAnalyzer {
 
     fun analyzeLogs(taskId: Long, logs: List<TaskExecutionLog>): SuggestionCard? {
-        val consecutivePostponements = logs.takeWhile { it.actionType == "POSTPONED" }.size
+        val consecutivePostponements = logs.takeWhile { it.actionType == ActionType.POSTPONED.name }.size
         if (consecutivePostponements >= 3) {
             return SuggestionCard(
                 targetTaskId = taskId,

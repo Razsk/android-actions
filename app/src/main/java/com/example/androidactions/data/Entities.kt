@@ -3,6 +3,13 @@ package com.example.androidactions.data
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+enum class ActionType {
+    COMPLETED,
+    POSTPONED,
+    STARTED,
+    CANCELLED
+}
+
 @Entity(tableName = "tasks")
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)

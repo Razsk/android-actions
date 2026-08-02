@@ -10,4 +10,9 @@ class BuddyAccountabilityFormatter {
         val minutes = totalTimeSeconds / 60
         return "Challenge Completed! $challengeTitle finished in $minutes mins."
     }
+
+    fun formatTimeoutMessage(challengeTitle: String, completedTasks: Int, totalTasks: Int): String {
+        return "Challenge Timed Out: $challengeTitle. Completed $completedTasks/$totalTasks tasks."
+    }
 }
+

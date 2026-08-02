@@ -23,4 +23,14 @@ class BuddyAccountabilityFormatterTest {
         assertTrue(msg.contains("Challenge Completed!"))
         assertTrue(msg.contains("30-Min Reset"))
     }
+
+    @Test
+    fun testFormatTimeoutMessage_containsTimeoutStats() {
+        val formatter = BuddyAccountabilityFormatter()
+        val msg = formatter.formatTimeoutMessage(challengeTitle = "30-Min Reset", completedTasks = 2, totalTasks = 5)
+
+        assertTrue(msg.contains("Challenge Timed Out: 30-Min Reset"))
+        assertTrue(msg.contains("2/5 tasks"))
+    }
 }
+
