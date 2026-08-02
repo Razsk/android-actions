@@ -11,25 +11,30 @@ Users trying to maintain consistent personal routines and complete daily tasks f
 A native, privacy-first Android application designed with the **Kinetic HUD** aesthetic featuring:
 - **On-Device Gemma 2B AI Inference** (via MediaPipe Tasks) analyzing historical completion logs to propose non-intrusive 1-tap schedule adjustment cards.
 - **Reusable Tasks & Routines**: Re-selectable tasks maintaining timestamped execution histories and flexible postponement periods.
-- **Task & Routine Creation Modal**: Top-bar header `+` action launching a Kinetic HUD dark bottom sheet modal with tag chips, list selectors, and default recurrence frequency configuration.
+- **Prominent Due Objectives Card**: Dedicated HUD container prominently displaying open due routines and active tasks directly below the Mission Control header.
+- **Inviting Multi-Entry Task Creation**: Solid Action Blue header button and Floating Action Button (FAB) launching a Kinetic HUD dark bottom sheet modal.
+- **Inline Custom Tag & List Creation**: Allows users to define new tags and lists on the fly directly inside the Task Creation modal via `+ NEW TAG` and `+ NEW LIST` chip text fields.
+- **Reusable Task Switch**: Material 3 Switch toggle in the creation modal enabling users to specify whether a task should be saved to the reusable library for quick re-selection.
 - **Single-Day Challenge System with Focus HUD**: High-contrast, single-objective execution view with live countdowns, Ghost Pace split timing against personal bests, and a dedicated Challenge Summary completion screen.
 - **Zero-Friction Accountability**: Instant status updates (Start, Finish, Timeout) sent via native Android sharing intents (SMS, WhatsApp, Signal) requiring zero partner setup.
 
 ## User Stories
 
-1. As a user, I want to create reusable tasks so that I can quickly log or re-select them when planning my day.
-2. As a user, I want to assign tags and lists to tasks so that I can organize objectives by context (Work, Health, Home).
-3. As a user, I want to tap a `+` icon on Mission Control to launch a Task Creation modal so that I can configure new tasks and routines without context switching.
-4. As a user, I want to define recurring routines with default frequency periods so that due tasks auto-appear on my Mission Control view.
-5. As a user, I want to postpone a due routine with a single tap using a pre-defined deferral period so that it reschedules without extra prompts unless a custom period is required.
-6. As a user, I want Gemma to analyze my routine postponement history so that I receive non-intrusive cards suggesting baseline schedule shifts.
-7. As a user, I want to accept or dismiss Gemma's schedule shift suggestions with a single tap.
-8. As a user, I want to launch single-day challenge modules (e.g. 30-Min Apartment Reset) so that I can complete grouped tasks within a time budget.
-9. As a user, I want to see an uncluttered Focus HUD screen during an active challenge so that I only focus on the active task and remaining timer.
-10. As a user, I want a Ghost Pace Bar during challenges so that I can compare my current split time against my personal best attempt.
-11. As a user, I want to see a Challenge Summary screen upon completing all tasks so that I can view total time elapsed, personal best split deltas, and share progress.
-12. As a user, I want to send challenge start, finish, and timeout updates to a buddy via standard SMS or messaging apps without requiring them to install the app.
-13. As a user, I want to view routine consistency heatmaps and hourly productivity charts so that I can visualize my completion performance.
+1. As a user, I want to see open due routines and tasks in a prominent 'Due Objectives' HUD section on Mission Control so that I immediately know what needs action.
+2. As a user, I want an inviting solid Action Blue button in the header and a Floating Action Button (FAB) at the bottom-right so that creating a task is always accessible.
+3. As a user, I want to create new custom tags and lists inline within the Task Creation modal so that I don't have to exit my task creation flow.
+4. As a user, I want a 'REUSABLE TASK' switch toggle in the Task Creation modal so that I can choose whether to keep a task definition in my library for future re-selection.
+5. As a user, I want to assign tags and lists to tasks so that I can organize objectives by context (Work, Health, Home).
+6. As a user, I want to define recurring routines with default frequency periods so that due tasks auto-appear on my Mission Control view.
+7. As a user, I want to postpone a due routine with a single tap using a pre-defined deferral period so that it reschedules without extra prompts unless a custom period is required.
+8. As a user, I want Gemma to analyze my routine postponement history so that I receive non-intrusive cards suggesting baseline schedule shifts.
+9. As a user, I want to accept or dismiss Gemma's schedule shift suggestions with a single tap.
+10. As a user, I want to launch single-day challenge modules (e.g. 30-Min Apartment Reset) so that I can complete grouped tasks within a time budget.
+11. As a user, I want to see an uncluttered Focus HUD screen during an active challenge so that I only focus on the active task and remaining timer.
+12. As a user, I want a Ghost Pace Bar during challenges so that I can compare my current split time against my personal best attempt.
+13. As a user, I want to see a Challenge Summary screen upon completing all tasks so that I can view total time elapsed, personal best split deltas, and share progress.
+14. As a user, I want to send challenge start, finish, and timeout updates to a buddy via standard SMS or messaging apps without requiring them to install the app.
+15. As a user, I want to view routine consistency heatmaps and hourly productivity charts so that I can visualize my completion performance.
 
 ## Implementation Decisions
 
@@ -40,8 +45,10 @@ A native, privacy-first Android application designed with the **Kinetic HUD** ae
 - **Notifications & Background Scheduler**: WorkManager for scheduled routine checks and AlarmManager for exact due-time alerts.
 
 ### User Interaction Contracts (From Interview Alignment)
-- **Task Creation Entry Point**: Top-bar header button (`+` icon) on Mission Control launching a bottom sheet modal.
-- **Automatic Routine Generation**: Saving a task with recurrence frequency > 0 automatically creates a corresponding `RoutineEntity`.
+- **Due Objectives Card**: Prominently rendered below Mission Control header, featuring quick completion checkboxes and 1-tap postponement.
+- **Inviting Task Creation Entry Points**: Header solid button (`+ CREATE TASK`) and Floating Action Button (FAB).
+- **Inline Custom Tag/List Creation**: `+ NEW TAG` / `+ NEW LIST` chip buttons revealing inline text inputs within `TaskCreationBottomSheet`.
+- **Reusable Task Switch**: Material 3 `Switch` toggle persisting `isReusable = true/false` on `TaskEntity`.
 - **Postponement Deferral Logic**: 1-tap postponement using pre-defined deferral period; opens custom deferral selector (`+1 Day`, `+3 Days`, `Custom`) only when unconfigured.
 - **Challenge Summary Transition**: Completing the final objective in Focus HUD navigates to a summary view displaying total elapsed time, Ghost Pace delta, and a prominent `Share to Buddy` action.
 

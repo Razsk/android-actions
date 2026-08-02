@@ -12,6 +12,14 @@ _Avoid_: Task template, predefined task
 A recurring action assigned a default frequency period.
 _Avoid_: Recurring task, habit
 
+**Due Objectives Card**:
+A prominent Mission Control HUD container displaying open due routines and active tasks with 1-tap complete and postpone actions.
+_Avoid_: Task list, pending box
+
+**Inline Creation**:
+Adding new custom tags or lists directly within the Task Creation modal via inline chip text fields.
+_Avoid_: Category manager, tag settings
+
 **Postponement**:
 The explicit deferral of a due Routine, which reschedules it after a custom period rather than the default recurrence period.
 _Avoid_: Snooze, delay, skip
