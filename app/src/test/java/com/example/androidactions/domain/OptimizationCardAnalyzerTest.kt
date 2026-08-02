@@ -13,9 +13,9 @@ class OptimizationCardAnalyzerTest {
     fun testAnalyzePostponementHistory_triggersSuggestionCard_whenPostponed3Times() {
         val analyzer = OptimizationCardAnalyzer()
         val logs = listOf(
-            TaskExecutionLog(id = 1L, taskId = 10L, actionType = ActionType.POSTPONED.name, timestamp = 100L),
-            TaskExecutionLog(id = 2L, taskId = 10L, actionType = ActionType.POSTPONED.name, timestamp = 200L),
-            TaskExecutionLog(id = 3L, taskId = 10L, actionType = ActionType.POSTPONED.name, timestamp = 300L)
+            TaskExecutionLog(id = 1L, taskId = 10L, actionType = ActionType.POSTPONED, timestamp = 100L),
+            TaskExecutionLog(id = 2L, taskId = 10L, actionType = ActionType.POSTPONED, timestamp = 200L),
+            TaskExecutionLog(id = 3L, taskId = 10L, actionType = ActionType.POSTPONED, timestamp = 300L)
         )
 
         val card = analyzer.analyzeLogs(taskId = 10L, logs = logs)
@@ -28,8 +28,8 @@ class OptimizationCardAnalyzerTest {
     fun testAnalyzePostponementHistory_returnsNull_whenPostponedLessThan3Times() {
         val analyzer = OptimizationCardAnalyzer()
         val logs = listOf(
-            TaskExecutionLog(id = 1L, taskId = 10L, actionType = ActionType.POSTPONED.name, timestamp = 100L),
-            TaskExecutionLog(id = 2L, taskId = 10L, actionType = ActionType.COMPLETED.name, timestamp = 200L)
+            TaskExecutionLog(id = 1L, taskId = 10L, actionType = ActionType.POSTPONED, timestamp = 100L),
+            TaskExecutionLog(id = 2L, taskId = 10L, actionType = ActionType.COMPLETED, timestamp = 200L)
         )
 
         val card = analyzer.analyzeLogs(taskId = 10L, logs = logs)

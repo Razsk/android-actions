@@ -14,7 +14,7 @@ data class SuggestionCard(
 class OptimizationCardAnalyzer {
 
     fun analyzeLogs(taskId: Long, logs: List<TaskExecutionLog>): SuggestionCard? {
-        val consecutivePostponements = logs.takeWhile { it.actionType == ActionType.POSTPONED.name }.size
+        val consecutivePostponements = logs.takeWhile { it.actionType == ActionType.POSTPONED }.size
         if (consecutivePostponements >= 3) {
             return SuggestionCard(
                 targetTaskId = taskId,

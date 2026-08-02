@@ -2,12 +2,25 @@ package com.example.androidactions.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 
 enum class ActionType {
     COMPLETED,
     POSTPONED,
     STARTED,
-    CANCELLED
+    TIMEOUT
+}
+
+class ActionTypeConverter {
+    @TypeConverter
+    fun fromActionType(value: ActionType): String = value.name
+
+    @TypeConverter
+    fun toActionType(value: String): ActionType = try {
+        ActionType.valueOf(value)
+    } catch (e: Exception) {
+        ActionType.COMPLETED
+    }
 }
 
 @Entity(tableName = "tasks")
@@ -39,7 +52,7 @@ data class TaskExecutionLog(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val taskId: Long,
-    val actionType: String,
+    val actionType: ActionType,
     val timestamp: Long
 )
 
