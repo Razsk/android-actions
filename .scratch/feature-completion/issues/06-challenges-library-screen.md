@@ -5,9 +5,9 @@ A dedicated **Challenges Library** screen accessible via the 3-destination botto
 
 **Blocked by:** 01 — Task Creation Bottom Sheet Modal & Persistence
 
-**Status:** ready-for-agent
+**Status:** closed
 
-- [ ] Add `Challenges` tab to 3-item bottom `NavigationBar` (`Mission Control ⚡`, `Challenges 🏆`, `Stats 📊`).
-- [ ] Build `ChallengesScreen` grid displaying preset challenge cards and task budgets.
-- [ ] Implement `+ Create Custom Challenge` modal allowing users to group tasks into a challenge.
-- [ ] Ensure `NavigationBar` automatically hides during `FocusHudScreen` active execution.
+- [x] Add `Challenges` tab to 3-item bottom `NavigationBar` (`Mission Control ⚡`, `Challenges 🏆`, `Stats 📊`).
+- [x] Build `ChallengesScreen` grid displaying preset challenge cards and task budgets.
+- [x] Implement `+ Create Custom Challenge` modal allowing users to group tasks into a challenge.
+- [x] Ensure `NavigationBar` automatically hides during `FocusHudScreen` active execution.
