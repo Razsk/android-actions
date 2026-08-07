@@ -75,3 +75,11 @@ data class SplitTimeEntity(
     val splitDurationSeconds: Long,
     val recordedTimestamp: Long
 )
+
+@Entity(tableName = "buddies")
+data class BuddyEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    val name: String,
+    val phoneNumber: String
+)

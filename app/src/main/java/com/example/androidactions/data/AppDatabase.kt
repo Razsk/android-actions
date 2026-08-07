@@ -10,7 +10,8 @@ import androidx.room.TypeConverters
         RoutineEntity::class,
         TaskExecutionLog::class,
         ChallengeEntity::class,
-        SplitTimeEntity::class
+        SplitTimeEntity::class,
+        BuddyEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -21,4 +22,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
     abstract fun taskExecutionLogDao(): TaskExecutionLogDao
     abstract fun challengeDao(): ChallengeDao
+    abstract fun buddyDao(): BuddyDao
 }

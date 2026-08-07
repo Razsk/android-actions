@@ -31,7 +31,10 @@ class MainScreenViewModelTest {
 
         viewModel.acceptSuggestionCard(taskId = 10L)
 
-        val updatedState = viewModel.uiState.filter { it is MainScreenUiState.Success }.first() as MainScreenUiState.Success
+        val updatedState = viewModel.uiState.filter {
+            it is MainScreenUiState.Success && (it as MainScreenUiState.Success).suggestionCards.isEmpty()
+        }.first() as MainScreenUiState.Success
+
         assertEquals(0, updatedState.suggestionCards.size)
     }
 

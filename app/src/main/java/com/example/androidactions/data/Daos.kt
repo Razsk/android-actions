@@ -56,3 +56,12 @@ interface ChallengeDao {
     @Query("SELECT * FROM split_times WHERE challengeId = :challengeId AND taskId = :taskId ORDER BY splitDurationSeconds ASC LIMIT 1")
     suspend fun getPersonalBestSplit(challengeId: Long, taskId: Long): SplitTimeEntity?
 }
+
+@Dao
+interface BuddyDao {
+    @Query("SELECT * FROM buddies")
+    fun getAllBuddies(): Flow<List<BuddyEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBuddy(buddy: BuddyEntity): Long
+}
